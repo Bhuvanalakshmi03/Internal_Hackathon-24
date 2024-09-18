@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Exam Timetable</h2>
+<table>
+    <tr>
+        <th>Subject</th>
+        <th>Exam Date</th>
+        <th>Exam Time</th>
+        <th>Venue</th>
+    </tr>
+    {% for exam in exam_timetable %}
+    <tr>
+        <td>{{ exam['subject_name'] }}</td>
+        <td>{{ exam['exam_date'] }}</td>
+        <td>{{ exam['exam_time'] }}</td>
+        <td>{{ exam['venue'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    li {
+        list-style-type: disc;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+</style>
+
+{% endblock %}

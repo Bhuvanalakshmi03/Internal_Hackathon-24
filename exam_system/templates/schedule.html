@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Exam Scheduling</h2>
+
+<form method="POST" action="{{ url_for('exam_scheduling') }}" class="form-container">
+    <label for="schedule_option">Schedule for:</label><br>
+    
+    <input type="radio" id="all_subjects" name="schedule_option" value="all" checked>
+    <label for="all_subjects">All Subjects</label><br>
+    
+    <input type="radio" id="selected_subjects" name="schedule_option" value="selected">
+    <label for="selected_subjects">Selected Subjects</label><br>
+    
+    <!-- Subject selection only visible for selected subjects option -->
+    <div id="subject_select" class="form-group" style="display:none;">
+        <label for="subjects">Select Subjects:</label><br>
+        <select id="subjects" name="subjects" multiple class="form-control">
+            {% for subject in subjects %}
+            <option value="{{ subject['id'] }}">{{ subject['name'] }}</option>
+            {% endfor %}
+        </select><br>
+    </div>
+
+    <!-- Input for Semester -->
+    <label for="semester">Semester:</label><br>
+    <input type="text" id="semester" name="semester" class="form-control" placeholder="e.g., Semester 1" required><br>
+
+    <!-- Date range inputs for scheduling -->
+    <label for="initial_exam_date">Initial Exam Date:</label><br>
+    <input type="date" id="initial_exam_date" name="initial_exam_date" class="form-control" required><br>
+
+    <label for="final_exam_date">Final Exam Date:</label><br>
+    <input type="date" id="final_exam_date" name="final_exam_date" class="form-control" required><br>
+
+    <button type="submit" class="btn-submit">Schedule Exams</button>
+</form>
+
+<script>
+document.querySelectorAll('input[name="schedule_option"]').forEach((elem) => {
+    elem.addEventListener('change', function(event) {
+        if (event.target.value == 'selected') {
+            document.getElementById('subject_select').style.display = 'block';
+        } else {
+            document.getElementById('subject_select').style.display = 'none';
+        }
+    });
+});
+</script>
+
+<style>
+    /* Styles for the form container */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Optional: For mobile responsiveness */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px;
+    }
+}
+
+</style>
+{% endblock %}

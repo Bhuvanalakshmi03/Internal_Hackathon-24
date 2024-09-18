@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Exam Registration</h2>
+<form id="registrationForm" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="roll_number">Roll Number:</label>
+    <input type="text" id="roll_number" name="roll_number" required><br>
+
+    <label for="course">Course:</label>
+    <input type="text" id="course" name="course" required><br>
+
+    <label>Subjects:</label><br>
+    <div id="subjectCheckboxes">
+        {% for subject in subjects %}
+            <label>
+                <input type="checkbox" name="subjects" value="{{ subject['id'] }}"> {{ subject['name'] }}
+            </label><br>
+        {% endfor %}
+    </div>
+
+    <button type="submit" onclick="showPopup(event)">Register</button>
+</form>
+
+<!-- Popup Modal -->
+<div id="popup" style="display: none;">
+    <div style="background: #fff; padding: 20px; border: 1px solid #ccc; border-radius: 5px; width: 300px; margin: 100px auto; text-align: center;">
+        <h3>Registration Successful</h3>
+        <p>Your registration has been submitted successfully.</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+function showPopup(event) {
+    event.preventDefault(); // Prevent form submission initially
+    
+    // Check if at least one subject is selected
+    let checkboxes = document.querySelectorAll('input[name="subjects"]:checked');
+    if (checkboxes.length === 0) {
+        alert('Please select at least one subject.');
+        return;
+    }
+
+    document.getElementById('popup').style.display = 'block'; // Show the popup
+
+    // Delay form submission to show the popup first
+    setTimeout(function() {
+        document.getElementById('registrationForm').submit(); // Submit the form after popup is shown
+    }, 1000); // 1-second delay to show the popup
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none'; // Hide the popup
+}
+</script>
+{% endblock %}
